@@ -3,388 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Earn credits, gift them, and exchange for Deo Hub whitelist time.">
-<title>Whitelist - Deo Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Deo Hub - Whitelist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f5f5f7;
-  --surface: rgba(255,255,255,0.72);
-  --surface-solid: #ffffff;
-  --border: rgba(0,0,0,0.08);
-  --border-strong: rgba(0,0,0,0.12);
-  --text: #1a1a1a;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #aeaeb2;
-  --accent: #0071e3;
-  --accent-hover: #0077ed;
-  --accent-light: rgba(0,113,227,0.08);
-  --green: #34c759;
-  --green-light: rgba(52,199,89,0.1);
-  --red: #ff3b30;
-  --red-light: rgba(255,59,48,0.08);
-  --yellow: #ff9f0a;
-  --discord: #5865f2;
-  --radius: 14px;
-  --radius-sm: 10px;
-  --radius-xs: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
-}
-html { font-size: 15px; }
-body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; line-height: 1.5; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0f0f13;color:#fff;min-height:100vh;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
 
 /* NAV */
-nav { position: sticky; top: 0; z-index: 200; background: rgba(245,245,247,0.85); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border); height: 52px; display: flex; align-items: center; padding: 0 24px; }
-.nav-inner { max-width: 860px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.2px; }
-.nav-right { display: flex; align-items: center; gap: 6px; }
-.nav-link { font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 5px 10px; border-radius: 7px; transition: background .15s, color .15s; }
-.nav-link:hover { background: rgba(0,0,0,0.05); color: var(--text); }
-.nav-discord-btn { background: var(--discord); color: #fff; font-size: 13px; font-weight: 500; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: opacity .15s, transform .15s; }
-.nav-discord-btn:hover { opacity: .9; transform: translateY(-1px); }
+nav{background:#18181f;border-bottom:1px solid #2a2a35;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:16px;font-weight:700;color:#fff}
+.discord-btn{background:#5865f2;color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;display:inline-block}
 
-/* BREADCRUMB */
-.breadcrumb { max-width: 860px; margin: 0 auto; padding: 14px 20px 0; font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
-.breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
-.breadcrumb a:hover { color: var(--text-secondary); }
+/* CONTAINER */
+.wrap{max-width:500px;margin:0 auto;padding:20px 16px 60px}
 
-/* HWID MISSING SCREEN */
-#no-hwid { display: none; max-width: 500px; margin: 80px auto; padding: 0 20px; text-align: center; }
-#no-hwid .icon { font-size: 48px; margin-bottom: 16px; }
-#no-hwid h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-#no-hwid p { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
-.code-box { background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 16px; text-align: left; margin-bottom: 12px; }
-.code-box .code-label { font-size: 10px; text-transform: uppercase; letter-spacing: .6px; color: var(--text-tertiary); font-weight: 600; margin-bottom: 8px; }
-.code-box code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); word-break: break-all; display: block; }
+/* NO HWID */
+#no-hwid{text-align:center;padding:60px 20px}
+#no-hwid h2{font-size:20px;font-weight:700;margin-bottom:8px}
+#no-hwid p{font-size:13px;color:#888;margin-bottom:16px;line-height:1.6}
+.code-block{background:#18181f;border:1px solid #2a2a35;border-radius:10px;padding:12px 14px;text-align:left;margin-bottom:8px}
+.code-label{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;font-weight:600}
+.code-block code{font-family:monospace;font-size:11px;color:#7b9eff;word-break:break-all;display:block}
 
-/* MAIN */
-main { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
-.page-header { margin-bottom: 28px; }
-.page-header h1 { font-size: clamp(22px, 3.5vw, 30px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 5px; }
-.page-header p { font-size: 14px; color: var(--text-secondary); }
+/* CARDS */
+.card{background:#18181f;border:1px solid #2a2a35;border-radius:14px;padding:16px;margin-bottom:12px}
+.card-title{font-size:10px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px}
 
-/* HWID pill */
-.hwid-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 20px; padding: 4px 12px 4px 8px; font-size: 11px; color: var(--text-secondary); margin-bottom: 20px; }
-.hwid-pill span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); }
-.hwid-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-
-/* CARD */
-.card { background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 12px; }
-.card-label { font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 14px; }
-
-/* BALANCE GRID */
-.balance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-@media(max-width:560px) { .balance-grid { grid-template-columns: 1fr 1fr; } }
-.stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px 14px; }
-.stat-label { font-size: 11px; color: var(--text-tertiary); margin-bottom: 5px; font-weight: 500; }
-.stat-value { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
-.stat-value .unit { font-size: 12px; font-weight: 500; color: var(--text-tertiary); margin-left: 2px; }
-.stat-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+/* STATS ROW */
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.stat{background:#111116;border:1px solid #2a2a35;border-radius:10px;padding:11px 10px}
+.stat-label{font-size:10px;color:#666;margin-bottom:4px}
+.stat-val{font-size:18px;font-weight:700}
+.stat-unit{font-size:10px;color:#666;font-weight:400}
 
 /* WHITELIST BOX */
-.whitelist-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.whitelist-box .wl-left h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-.whitelist-box .wl-left p { font-size: 12px; color: var(--text-secondary); }
-.wl-right { text-align: right; }
-.wl-expires-label { font-size: 10px; text-transform: uppercase; letter-spacing: .6px; color: var(--text-tertiary); margin-bottom: 2px; font-weight: 600; }
-.wl-expires-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-secondary); }
-
-/* BADGE */
-.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
-.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-.badge-dot.pulse { animation: blink 2s infinite; }
-@keyframes blink { 0%,100%{opacity:1}50%{opacity:.35} }
-.badge-inactive { background: var(--red-light); color: var(--red); }
-.badge-active   { background: var(--green-light); color: var(--green); }
+.wl-box{background:#111116;border:1px solid #2a2a35;border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+.wl-box.active{border-color:rgba(52,199,89,0.3);background:rgba(52,199,89,0.05)}
+.wl-status{font-size:13px;font-weight:600}
+.wl-expires{font-size:11px;color:#666;margin-top:2px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px}
+.badge-on{background:rgba(52,199,89,0.15);color:#34c759}
+.badge-off{background:rgba(255,59,48,0.1);color:#ff3b30}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.dot.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* TOKEN */
-.token-row { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 8px; }
-.token-val { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.btn-ghost { font-size: 12px; font-weight: 500; background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 7px; padding: 5px 12px; cursor: pointer; color: var(--text); transition: background .15s; font-family: 'Inter', sans-serif; white-space: nowrap; }
-.btn-ghost:hover { background: var(--bg); }
-.token-hint { font-size: 12px; color: var(--text-tertiary); }
+.token-box{background:#111116;border:1px solid #2a2a35;border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.token-val{font-family:monospace;font-size:12px;color:#7b9eff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tap-btn{background:#222230;border:1px solid #2a2a35;color:#fff;font-size:11px;font-weight:600;padding:5px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif}
+.token-hint{font-size:11px;color:#555}
 
-/* DISCORD TASK */
-.task-card { background: linear-gradient(135deg, rgba(88,101,242,0.07) 0%, rgba(88,101,242,0.03) 100%); border: 1px solid rgba(88,101,242,0.18); border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
-.task-tag { display: inline-block; background: var(--yellow); color: #000; font-size: 10px; font-weight: 700; letter-spacing: .5px; padding: 2px 7px; border-radius: 20px; margin-bottom: 5px; }
-.task-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-.task-card p { font-size: 13px; color: var(--text-secondary); }
-.btn-discord { background: var(--discord); color: #fff; border: none; padding: 9px 18px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: opacity .15s, transform .15s; white-space: nowrap; font-family: 'Inter', sans-serif; }
-.btn-discord:hover { opacity: .9; transform: translateY(-1px); }
-.btn-discord:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+/* QUIZ */
+.quiz-q{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.quiz-opt{background:#111116;border:1px solid #2a2a35;border-radius:9px;padding:10px 13px;font-size:13px;cursor:pointer;transition:border-color .1s}
+.quiz-opt:active{background:#1e1e2a}
+.quiz-result{font-size:12px;font-weight:600;min-height:16px;margin-bottom:8px}
+.quiz-prog{font-size:11px;color:#555;margin-bottom:10px}
+.start-btn{background:#0071e3;color:#fff;font-size:14px;font-weight:600;padding:11px;border-radius:10px;text-align:center;cursor:pointer;width:100%;margin-top:4px}
+.start-btn:active{background:#005bb5}
 
-/* TWO COL */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media(max-width:540px) { .two-col { grid-template-columns: 1fr; } }
-.section-h { font-size: 14px; font-weight: 600; margin-bottom: 3px; display: flex; align-items: center; gap: 7px; }
-.section-p { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; }
-.btn-primary { width: 100%; background: var(--accent); color: #fff; border: none; padding: 10px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s, transform .15s, box-shadow .15s; font-family: 'Inter', sans-serif; }
-.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,113,227,0.25); }
-.btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-.field-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .5px; display: block; margin-bottom: 5px; }
-input[type=text], input[type=number] { width: 100%; background: var(--bg); border: 1px solid var(--border-strong); border-radius: var(--radius-xs); padding: 9px 11px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--text); outline: none; transition: border .15s, box-shadow .15s; margin-bottom: 10px; }
-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,0.12); }
-input::placeholder { color: var(--text-tertiary); font-family: 'Inter', sans-serif; }
+/* GIFT */
+.field-label{font-size:11px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
+input{width:100%;background:#111116;border:1px solid #2a2a35;border-radius:9px;padding:10px 12px;font-size:13px;font-family:monospace;color:#fff;outline:none;margin-bottom:10px}
+input:focus{border-color:#0071e3}
+input::placeholder{color:#444;font-family:'Inter',sans-serif}
+.primary-btn{background:#0071e3;color:#fff;font-size:13px;font-weight:600;padding:10px;border-radius:9px;text-align:center;cursor:pointer;width:100%}
+.primary-btn:active{background:#005bb5}
 
 /* PACKAGES */
-.packages-h { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 3px; }
-.packages-p { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
-.pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-bottom: 16px; }
-.pkg { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; cursor: pointer; position: relative; transition: border-color .15s, background .15s, box-shadow .15s; user-select: none; }
-.pkg:hover { border-color: var(--accent); background: var(--accent-light); }
-.pkg.selected { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 2px rgba(0,113,227,0.15); }
-.pkg-flag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 700; letter-spacing: .3px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
-.pkg-flag-popular { background: var(--accent); color: #fff; }
-.pkg-flag-best { background: var(--yellow); color: #000; }
-.pkg-dur { font-size: 22px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
-.pkg-unit { font-size: 10px; color: var(--text-tertiary); font-weight: 500; margin-bottom: 8px; }
-.pkg-price { font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-light); border-radius: 5px; padding: 2px 7px; display: inline-block; }
-
-/* REDEEM */
-.redeem-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
-.redeem-hint { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; }
-.selected-pkg-row { display: none; align-items: center; justify-content: space-between; background: var(--accent-light); border: 1px solid rgba(0,113,227,0.15); border-radius: 8px; padding: 9px 13px; margin-bottom: 12px; }
-.spkg-name { font-size: 13px; font-weight: 600; }
-.spkg-cost { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); }
-.divider { height: 1px; background: var(--border); margin: 14px 0; }
-
-/* FOOTER */
-.footer-img { max-width: 100%; border-radius: var(--radius); margin: 20px auto 0; display: block; opacity: .7; }
-footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--text-tertiary); }
-.footer-links { display: flex; gap: 18px; }
-.footer-links a { color: var(--text-tertiary); text-decoration: none; }
-.footer-links a:hover { color: var(--text-secondary); }
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:7px;margin-bottom:14px}
+.pkg{background:#111116;border:2px solid #2a2a35;border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;position:relative}
+.pkg.sel{border-color:#0071e3;background:rgba(0,113,227,0.08)}
+.pkg:active{border-color:#0071e3}
+.pkg-flag{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap}
+.flag-pop{background:#0071e3;color:#fff}
+.flag-best{background:#ff9f0a;color:#000}
+.pkg-dur{font-size:20px;font-weight:800;letter-spacing:-1px}
+.pkg-unit{font-size:9px;color:#666;margin-bottom:6px}
+.pkg-price{font-size:10px;font-weight:600;color:#7b9eff;background:rgba(123,158,255,0.1);border-radius:4px;padding:2px 6px;display:inline-block}
+.sel-row{background:rgba(0,113,227,0.08);border:1px solid rgba(0,113,227,0.2);border-radius:8px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;display:none}
+.redeem-btn{background:#0071e3;color:#fff;font-size:13px;font-weight:600;padding:10px;border-radius:9px;text-align:center;cursor:pointer;width:100%;opacity:.4}
+.redeem-btn.ready{opacity:1}
+.redeem-btn:active{background:#005bb5}
 
 /* TOAST */
-#toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 10px; padding: 11px 16px; font-size: 13px; font-weight: 500; box-shadow: 0 4px 20px rgba(0,0,0,0.12); opacity: 0; transform: translateY(6px) scale(.97); transition: all .25s; pointer-events: none; z-index: 999; max-width: 260px; }
-#toast.show { opacity: 1; transform: none; }
-#toast.success { color: var(--green); border-color: rgba(52,199,89,0.3); }
-#toast.error   { color: var(--red);   border-color: rgba(255,59,48,0.3); }
-#toast.info    { color: var(--accent); border-color: rgba(0,113,227,0.2); }
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:#fff;color:#000;font-size:13px;font-weight:600;padding:10px 18px;border-radius:10px;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;z-index:999}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.green{background:#34c759;color:#fff}
+#toast.red{background:#ff3b30;color:#fff}
+#toast.blue{background:#0071e3;color:#fff}
+
+footer{border-top:1px solid #2a2a35;padding:18px 20px;text-align:center;font-size:11px;color:#444}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">Deo Hub</a>
-    <div class="nav-right">
-      <a href="#" class="nav-link">Home</a>
-      <a href="https://discord.gg/snxNCHhUX" target="_blank" class="nav-discord-btn">
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M13.545 1.04A13.22 13.22 0 0 0 10.265 0c-.155.282-.335.662-.459.964a12.23 12.23 0 0 0-3.613 0A10.285 10.285 0 0 0 5.734 0a13.2 13.2 0 0 0-3.282 1.042C.35 4.099-.214 7.064.068 9.986c1.386 1.031 2.727 1.654 4.047 2.063.327-.448.617-.924.866-1.428a8.635 8.635 0 0 1-1.364-.666c.114-.085.226-.173.334-.263 2.628 1.23 5.487 1.23 8.085 0 .109.09.221.178.334.263-.435.261-.89.49-1.366.668.25.503.54.98.866 1.428 1.322-.41 2.665-1.032 4.05-2.063.33-3.41-.558-6.346-2.375-8.948ZM5.34 8.19c-.78 0-1.419-.728-1.419-1.62 0-.892.624-1.621 1.42-1.621.796 0 1.432.73 1.42 1.62 0 .893-.625 1.622-1.42 1.622Zm5.326 0c-.78 0-1.419-.728-1.419-1.62 0-.892.623-1.621 1.42-1.621.795 0 1.431.73 1.419 1.62 0 .893-.625 1.622-1.42 1.622Z"/></svg>
-        Discord
-      </a>
-    </div>
-  </div>
+  <div class="logo">Deo Hub</div>
+  <a href="https://discord.gg/snxNCHhUX" target="_blank" class="discord-btn">Discord</a>
 </nav>
 
-<!-- NO HWID SCREEN -->
-<div id="no-hwid">
-  <div class="icon">🔑</div>
+<!-- NO HWID -->
+<div id="no-hwid" style="display:none">
+  <div style="font-size:40px;margin-bottom:14px">🔑</div>
   <h2>No HWID detected</h2>
-  <p>This page must be opened from the Roblox script. Execute the script in-game and it will open this page with your unique ID automatically.</p>
-  <div class="code-box">
-    <div class="code-label">Roblox Loader</div>
+  <p>Open this page from in-game using the script below.</p>
+  <div class="code-block">
+    <div class="code-label">Loader</div>
     <code>loadstring(game:HttpGet("https://raw.githubusercontent.com/Hrjrururur5/Deohub/main/DeoH.lua"))()</code>
   </div>
-  <p style="font-size:12px;color:var(--text-tertiary)">If you were redirected here manually, make sure your link includes <code style="font-family:monospace;color:var(--accent)">?HWID=your_id</code></p>
 </div>
 
-<div class="breadcrumb" id="breadcrumb" style="display:none">
-  <a href="#">Home</a><span>/</span><span>Whitelist</span><span>/</span><span>Credits</span>
-</div>
+<!-- MAIN -->
+<div class="wrap" id="main" style="display:none">
 
-<main id="main-content" style="display:none">
-
-  <div class="page-header">
-    <h1>Earn credits, unlock whitelist.</h1>
-    <p>Complete Linkvertise to earn credits, gift them to friends, or exchange them for whitelist time.</p>
-  </div>
-
-  <!-- HWID PILL -->
-  <div class="hwid-pill">
-    <span class="hwid-dot"></span>
-    HWID: <span id="hwid-display">-</span>
-  </div>
-
-  <!-- BALANCE + STATUS -->
+  <!-- BALANCE -->
   <div class="card">
-    <div class="balance-grid">
+    <div class="card-title">Overview</div>
+    <div class="stats">
       <div class="stat">
-        <div class="stat-label">Your balance</div>
-        <div class="stat-value" id="balance-val">0<span class="unit">credits</span></div>
+        <div class="stat-label">Balance</div>
+        <div class="stat-val" id="bal">0<span class="stat-unit"> cr</span></div>
       </div>
       <div class="stat">
-        <div class="stat-label">Earned today</div>
-        <div class="stat-value"><span id="earned-val">0</span><span class="unit">/ 50</span></div>
-        <div class="stat-sub">Resets daily.</div>
+        <div class="stat-label">Today</div>
+        <div class="stat-val" id="today">0<span class="stat-unit">/50</span></div>
       </div>
       <div class="stat">
-        <div class="stat-label">Whitelist status</div>
-        <div style="margin-top:5px">
-          <span class="badge badge-inactive" id="status-badge">
-            <span class="badge-dot" id="badge-dot"></span>
-            <span id="badge-text">Inactive</span>
-          </span>
+        <div class="stat-label">Status</div>
+        <div style="margin-top:4px">
+          <span class="badge badge-off" id="wl-badge"><span class="dot" id="wl-dot"></span><span id="wl-badge-text">Off</span></span>
         </div>
       </div>
     </div>
-    <div class="whitelist-box" id="wl-box">
-      <div class="wl-left">
-        <h3 id="wl-title">Not active</h3>
-        <p id="wl-desc">No active whitelist - redeem a package below to start your timer.</p>
-      </div>
-      <div class="wl-right">
-        <div class="wl-expires-label">Expires</div>
-        <div class="wl-expires-val" id="wl-expires">-</div>
+    <div class="wl-box" id="wl-box">
+      <div>
+        <div class="wl-status" id="wl-status">Not active</div>
+        <div class="wl-expires" id="wl-expires">Redeem a package below</div>
       </div>
     </div>
   </div>
 
   <!-- TOKEN -->
   <div class="card">
-    <div class="card-label">Your User Token</div>
-    <div class="token-row">
+    <div class="card-title">Your Token</div>
+    <div class="token-box">
       <div class="token-val" id="token-val">---</div>
-      <button class="btn-ghost" onclick="copyToken()">Copy token</button>
+      <div class="tap-btn" onpointerdown="copyToken()">Copy</div>
     </div>
-    <div class="token-hint">Share this so others can gift you credits.</div>
+    <div class="token-hint">Share your token so others can gift you credits.</div>
   </div>
 
-  <!-- EARN + GIFT -->
-  <div class="two-col">
-    <div class="card" style="margin-bottom:0">
-      <div class="card-label">Earn &amp; share</div>
-      <div class="section-h">Answer questions</div>
-      <p class="section-p">Answer 3 questions correctly to earn +1 credit.</p>
-      <div id="quiz-box">
-        <div id="quiz-start-screen">
-          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Answer 3 in a row correctly to earn a credit. New questions each time!</div>
-          <div id="start-quiz-btn" style="display:inline-block;background:#0071e3;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:9px;cursor:pointer;user-select:none;-webkit-user-select:none;" onpointerdown="startQuiz()">Start Quiz</div>
-        </div>
-        <div id="quiz-play-screen" style="display:none">
-          <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px">Question <span id="quiz-progress">1</span> of 3</div>
-          <div id="quiz-question" style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text)"></div>
-          <div id="quiz-options" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
-          <div id="quiz-result" style="font-size:12px;font-weight:600;min-height:18px"></div>
-        </div>
-      </div>
+  <!-- QUIZ -->
+  <div class="card">
+    <div class="card-title">Earn Credits — 3 correct = +1 credit</div>
+    <div id="quiz-start">
+      <div style="font-size:13px;color:#666;margin-bottom:12px">Answer 3 questions correctly in a row to earn +1 credit. Get one wrong and it resets!</div>
+      <div class="start-btn" onpointerdown="startQuiz()">Start Quiz</div>
     </div>
-    <div class="card" style="margin-bottom:0">
-      <div class="card-label">Gift credits</div>
-      <div class="section-h">Gift credits</div>
-      <p class="section-p">Send to another user's token.</p>
-      <label class="field-label">Recipient user token</label>
-      <input type="text" id="gift-token" placeholder="@" />
-      <label class="field-label">Amount</label>
-      <input type="number" id="gift-amount" placeholder="1" min="1" />
-      <button class="btn-primary" onclick="sendGift()">Send gift</button>
+    <div id="quiz-play" style="display:none">
+      <div class="quiz-prog">Question <span id="qnum">1</span> of 3 &nbsp;·&nbsp; <span id="qscore">0</span> correct</div>
+      <div class="quiz-q" id="quiz-q"></div>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <div class="quiz-result" id="quiz-res"></div>
     </div>
+  </div>
+
+  <!-- GIFT -->
+  <div class="card">
+    <div class="card-title">Gift Credits</div>
+    <label class="field-label">Recipient Token</label>
+    <input type="text" id="gift-tok" placeholder="Paste token here">
+    <label class="field-label">Amount</label>
+    <input type="number" id="gift-amt" placeholder="1" min="1">
+    <div class="primary-btn" onpointerdown="sendGift()">Send Gift</div>
   </div>
 
   <!-- PACKAGES -->
-  <div class="card" style="margin-top:12px">
-    <div class="packages-h">Exchange for whitelist</div>
-    <p class="packages-p">Select a package and redeem it with your credits.</p>
+  <div class="card">
+    <div class="card-title">Exchange for Whitelist</div>
     <div class="pkg-grid" id="pkg-grid"></div>
-    <div class="divider"></div>
-    <div class="redeem-box">
-      <div id="redeem-hint" class="redeem-hint"><strong>Select a duration</strong><br>Pick a package above to redeem it with your credits.</div>
-      <div class="selected-pkg-row" id="sel-pkg-row">
-        <span class="spkg-name" id="sel-name">-</span>
-        <span class="spkg-cost" id="sel-cost">- credits</span>
-      </div>
-      <button class="btn-primary" id="redeem-btn" onclick="redeemPkg()" disabled>Redeem whitelist</button>
+    <div class="sel-row" id="sel-row">
+      <span id="sel-name" style="font-size:13px;font-weight:600">-</span>
+      <span id="sel-cost" style="font-family:monospace;font-size:12px;color:#7b9eff">-</span>
     </div>
+    <div class="redeem-btn" id="redeem-btn" onpointerdown="redeemPkg()">Redeem Whitelist</div>
   </div>
 
+</div>
 
-
-</main>
-
-<footer>
-  <span>© 2026 Deo Hub · All rights reserved.</span>
-  <div class="footer-links">
-    <a href="#">Home</a>
-    <a href="https://discord.gg/snxNCHhUX" target="_blank">Discord</a>
-    <a href="#">Terms of Service</a>
-  </div>
-</footer>
-
+<footer>© 2026 Deo Hub · All rights reserved.</footer>
 <div id="toast"></div>
 
 <script>
-// ── Get HWID from URL ─────────────────────────────────────
-const urlParams = new URLSearchParams(window.location.search);
-const HWID = urlParams.get('HWID');
+const PARAMS = new URLSearchParams(location.search);
+const HWID   = PARAMS.get('HWID');
 
 if (!HWID) {
-  // No HWID — show the "missing" screen, hide main content
   document.getElementById('no-hwid').style.display = 'block';
 } else {
-  document.getElementById('breadcrumb').style.display = 'flex';
-  document.getElementById('main-content').style.display = 'block';
-  document.getElementById('hwid-display').textContent = HWID.length > 20
-    ? HWID.slice(0, 10) + '…' + HWID.slice(-6)
-    : HWID;
+  document.getElementById('main').style.display = 'block';
   init();
 }
 
-// ── Per-HWID storage key ──────────────────────────────────
-function storageKey(sub) { return `overdrive_${HWID}_${sub}`; }
+function sKey(s) { return 'dh_' + HWID + '_' + s; }
+function load()  { try { return JSON.parse(localStorage.getItem(sKey('s'))) || null; } catch(e){return null;} }
+function save(s) { try { localStorage.setItem(sKey('s'), JSON.stringify(s)); } catch(e){} }
 
-function loadState() {
-  try {
-    const raw = localStorage.getItem(storageKey('state'));
-    return raw ? JSON.parse(raw) : null;
-  } catch(e) { return null; }
-}
-
-function saveState(s) {
-  try { localStorage.setItem(storageKey('state'), JSON.stringify(s)); } catch(e) {}
-}
-
-// ── Generate deterministic token from HWID ────────────────
-function genToken(hwid) {
-  // Simple deterministic hash → readable token
+function genToken(h) {
   let hash = 0;
-  for (let i = 0; i < hwid.length; i++) {
-    hash = ((hash << 5) - hash) + hwid.charCodeAt(i);
-    hash |= 0;
-  }
-  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let token = '';
-  let seed = Math.abs(hash);
-  for (let i = 0; i < 16; i++) {
-    token += chars[seed % chars.length];
-    seed = Math.floor(seed / chars.length) + (seed * 31 + i);
-    seed = Math.abs(seed % 1000000007);
-  }
-  return token;
+  for (let i = 0; i < h.length; i++) { hash = ((hash << 5) - hash) + h.charCodeAt(i); hash |= 0; }
+  const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let t = '', s = Math.abs(hash);
+  for (let i = 0; i < 16; i++) { t += c[s % c.length]; s = Math.abs(Math.floor(s / c.length) + s * 31 + i) % 1000000007; }
+  return t;
 }
 
-// ── Packages ──────────────────────────────────────────────
 const PKGS = [
-  {dur:'6',  unit:'hrs',  credits:2,  hours:6   },
-  {dur:'12', unit:'hrs',  credits:3,  hours:12  },
-  {dur:'1',  unit:'day',  credits:4,  hours:24,  flag:'popular', flagLabel:'Popular' },
-  {dur:'3',  unit:'days', credits:6,  hours:72  },
-  {dur:'5',  unit:'days', credits:9,  hours:120 },
-  {dur:'7',  unit:'days', credits:11, hours:168 },
-  {dur:'15', unit:'days', credits:21, hours:360, flag:'best', flagLabel:'Best value' },
+  {dur:'6', unit:'hrs',  credits:2,  hours:6},
+  {dur:'12',unit:'hrs',  credits:3,  hours:12},
+  {dur:'1', unit:'day',  credits:4,  hours:24,  flag:'pop', label:'Popular'},
+  {dur:'3', unit:'days', credits:6,  hours:72},
+  {dur:'5', unit:'days', credits:9,  hours:120},
+  {dur:'7', unit:'days', credits:11, hours:168},
+  {dur:'15',unit:'days', credits:21, hours:360, flag:'best',label:'Best'},
 ];
 let selPkg = null;
 let state  = null;
 
+function checkReset() {
+  const today = new Date().toDateString();
+  if (state.lastDate !== today) {
+    state.earnedToday = 0;
+    state.lastDate    = today;
+    save(state);
+  }
+}
+
+function updateUI() {
+  checkReset();
+  document.getElementById('bal').innerHTML   = state.balance + '<span class="stat-unit"> cr</span>';
+  document.getElementById('today').innerHTML = state.earnedToday + '<span class="stat-unit">/50</span>';
+  document.getElementById('token-val').textContent = state.token;
+
+  const now = new Date(), exp = state.wlExpires ? new Date(state.wlExpires) : null;
+  const on  = exp && exp > now;
+  const badge = document.getElementById('wl-badge');
+  const box   = document.getElementById('wl-box');
+  if (on) {
+    badge.className = 'badge badge-on';
+    document.getElementById('wl-dot').className   = 'dot pulse';
+    document.getElementById('wl-badge-text').textContent = 'Active';
+    document.getElementById('wl-status').textContent     = 'Active';
+    document.getElementById('wl-expires').textContent    = 'Expires: ' + exp.toLocaleString();
+    box.className = 'wl-box active';
+  } else {
+    badge.className = 'badge badge-off';
+    document.getElementById('wl-dot').className   = 'dot';
+    document.getElementById('wl-badge-text').textContent = 'Off';
+    document.getElementById('wl-status').textContent     = 'Not active';
+    document.getElementById('wl-expires').textContent    = 'Redeem a package below';
+    box.className = 'wl-box';
+    if (state.wlExpires && !on) { state.wlExpires = null; save(state); }
+  }
+}
+
 function renderPkgs() {
   document.getElementById('pkg-grid').innerHTML = PKGS.map((p,i) => `
-    <div class="pkg${selPkg===i?' selected':''}" onclick="selectPkg(${i})" role="button" tabindex="0">
-      ${p.flag ? `<div class="pkg-flag pkg-flag-${p.flag}">${p.flagLabel}</div>` : ''}
+    <div class="pkg${selPkg===i?' sel':''}" onpointerdown="selectPkg(${i})">
+      ${p.flag ? `<div class="pkg-flag flag-${p.flag}">${p.label}</div>` : ''}
       <div class="pkg-dur">${p.dur}</div>
       <div class="pkg-unit">${p.unit}</div>
-      <div class="pkg-price">${p.credits} credits</div>
+      <div class="pkg-price">${p.credits} cr</div>
     </div>
   `).join('');
 }
@@ -393,216 +286,154 @@ function selectPkg(i) {
   selPkg = i;
   renderPkgs();
   const p = PKGS[i];
-  document.getElementById('redeem-hint').style.display = 'none';
-  const row = document.getElementById('sel-pkg-row');
+  const row = document.getElementById('sel-row');
   row.style.display = 'flex';
-  document.getElementById('sel-name').textContent = `${p.dur} ${p.unit}`;
-  document.getElementById('sel-cost').textContent  = `${p.credits} credits`;
-  document.getElementById('redeem-btn').disabled = false;
+  document.getElementById('sel-name').textContent = p.dur + ' ' + p.unit;
+  document.getElementById('sel-cost').textContent = p.credits + ' credits';
+  const btn = document.getElementById('redeem-btn');
+  btn.className = 'redeem-btn ready';
 }
 
-// ── Daily reset ───────────────────────────────────────────
-function checkReset() {
-  const today = new Date().toDateString();
-  if (state.lastEarnDate !== today) {
-    state.earnedToday    = 0;
-    state.discordClaimed = false;
-    state.lastEarnDate   = today;
-    saveState(state);
-  }
-}
-
-// ── UI ────────────────────────────────────────────────────
-function updateUI() {
-  checkReset();
-
-  document.getElementById('balance-val').innerHTML =
-    `${state.balance}<span class="unit">credits</span>`;
-  document.getElementById('earned-val').textContent = state.earnedToday;
-  document.getElementById('token-val').textContent  = state.token;
-
-  // Whitelist status
-  const now    = new Date();
-  const exp    = state.wlExpires ? new Date(state.wlExpires) : null;
-  const active = exp && exp > now;
-
-  const badge = document.getElementById('status-badge');
-  const dot   = document.getElementById('badge-dot');
-  const box   = document.getElementById('wl-box');
-
-  if (active) {
-    badge.className = 'badge badge-active';
-    dot.className   = 'badge-dot pulse';
-    document.getElementById('badge-text').textContent = 'Active';
-    document.getElementById('wl-title').textContent   = 'Active';
-    document.getElementById('wl-desc').textContent    = 'Your whitelist is currently running.';
-    box.style.background   = 'rgba(52,199,89,0.05)';
-    box.style.borderColor  = 'rgba(52,199,89,0.25)';
-    document.getElementById('wl-expires').textContent = exp.toLocaleString();
-  } else {
-    badge.className = 'badge badge-inactive';
-    dot.className   = 'badge-dot';
-    document.getElementById('badge-text').textContent = 'Inactive';
-    document.getElementById('wl-title').textContent   = 'Not active';
-    document.getElementById('wl-desc').textContent    = 'No active whitelist - redeem a package below to start your timer.';
-    box.style.background  = '';
-    box.style.borderColor = '';
-    document.getElementById('wl-expires').textContent = '-';
-    if (state.wlExpires && !active) { state.wlExpires = null; saveState(state); }
-  }
-
-}
-
-// ── Toast ─────────────────────────────────────────────────
-function toast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = `show ${type}`;
-  clearTimeout(t._t);
-  t._t = setTimeout(() => { t.className = ''; }, 2800);
-}
-
-// ── Actions ───────────────────────────────────────────────
 function copyToken() {
-  navigator.clipboard.writeText(state.token)
-    .then(() => toast('Token copied!', 'success'))
-    .catch(() => {
-      const el = document.createElement('input');
-      el.value = state.token;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-      toast('Token copied!', 'success');
-    });
+  const t = state.token;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(t).then(() => toast('Token copied!','green')).catch(() => fallbackCopy(t));
+  } else { fallbackCopy(t); }
 }
-
-const QUESTIONS = [
-  { q: "What is 12 × 12?", options: ["124","144","134","154"], answer: 1 },
-  { q: "Which planet is closest to the Sun?", options: ["Venus","Earth","Mercury","Mars"], answer: 2 },
-  { q: "How many sides does a hexagon have?", options: ["5","7","8","6"], answer: 3 },
-  { q: "What color do you get mixing blue and yellow?", options: ["Purple","Orange","Green","Brown"], answer: 2 },
-  { q: "What is the capital of France?", options: ["Berlin","Paris","Rome","Madrid"], answer: 1 },
-  { q: "How many seconds are in a minute?", options: ["100","30","60","90"], answer: 2 },
-  { q: "What is 7 × 8?", options: ["54","56","58","52"], answer: 1 },
-  { q: "Which is the largest ocean?", options: ["Atlantic","Indian","Arctic","Pacific"], answer: 3 },
-  { q: "How many continents are there?", options: ["5","6","7","8"], answer: 2 },
-  { q: "What gas do plants absorb?", options: ["Oxygen","Nitrogen","CO2","Hydrogen"], answer: 2 },
-  { q: "What is 100 ÷ 4?", options: ["20","30","25","40"], answer: 2 },
-  { q: "Which animal is the fastest on land?", options: ["Lion","Horse","Cheetah","Leopard"], answer: 2 },
-  { q: "What is the boiling point of water in °C?", options: ["90","110","80","100"], answer: 3 },
-  { q: "How many players are on a football team?", options: ["10","9","11","12"], answer: 2 },
-  { q: "What is 15 × 4?", options: ["50","55","60","45"], answer: 2 },
-];
-
-let currentQ = null;
-let quizAnswered = false;
-let quizCorrect = 0;
-let quizQNum = 0;
-let usedQs = [];
-
-function startQuiz() {
-  if (state.earnedToday >= 50) return toast('Daily limit reached (50/day)!', 'error');
-  quizCorrect = 0;
-  quizQNum = 0;
-  usedQs = [];
-  document.getElementById('quiz-start-screen').style.display = 'none';
-  document.getElementById('quiz-play-screen').style.display = 'block';
-  loadQuiz();
+function fallbackCopy(t) {
+  const el = document.createElement('textarea');
+  el.value = t; el.style.position = 'fixed'; el.style.opacity = '0';
+  document.body.appendChild(el); el.focus(); el.select();
+  try { document.execCommand('copy'); toast('Token copied!','green'); } catch(e) { toast('Copy failed','red'); }
+  document.body.removeChild(el);
 }
-
-function loadQuiz() {
-  quizAnswered = false;
-  quizQNum++;
-  document.getElementById('quiz-progress').textContent = quizQNum;
-  document.getElementById('quiz-result').textContent = '';
-  let idx;
-  do { idx = Math.floor(Math.random() * QUESTIONS.length); } while (usedQs.includes(idx));
-  usedQs.push(idx);
-  currentQ = QUESTIONS[idx];
-  document.getElementById('quiz-question').textContent = currentQ.q;
-  const opts = document.getElementById('quiz-options');
-  opts.innerHTML = currentQ.options.map((o, i) => `
-    <div style="background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;" onpointerdown="answerQuiz(${i})">${o}</div>
-  `).join('');
-}
-
-function answerQuiz(i) {
-  if (quizAnswered) return;
-  quizAnswered = true;
-  const result = document.getElementById('quiz-result');
-  const btns = document.getElementById('quiz-options').querySelectorAll('button');
-  btns.forEach(b => b.disabled = true);
-  if (i === currentQ.answer) {
-    quizCorrect++;
-    result.style.color = 'var(--green)';
-    if (quizCorrect >= 3) {
-      result.textContent = '✓ Correct! All 3 done — +1 credit earned!';
-      state.balance += 1; state.earnedToday += 1;
-      saveState(state); updateUI();
-      toast('+1 credit earned!', 'success');
-      setTimeout(() => {
-        document.getElementById('quiz-play-screen').style.display = 'none';
-        document.getElementById('quiz-start-screen').style.display = 'block';
-      }, 2000);
-    } else {
-      result.textContent = `✓ Correct! ${3 - quizCorrect} more to go.`;
-      setTimeout(loadQuiz, 1500);
-    }
-  } else {
-    result.style.color = 'var(--red)';
-    result.textContent = '✗ Wrong! Answer: ' + currentQ.options[currentQ.answer] + ' — Quiz reset.';
-    setTimeout(() => {
-      document.getElementById('quiz-play-screen').style.display = 'none';
-      document.getElementById('quiz-start-screen').style.display = 'block';
-    }, 2200);
-  }
-}
-
-function earnCredits() {}
 
 function sendGift() {
-  const tok = document.getElementById('gift-token').value.trim();
-  const amt = parseInt(document.getElementById('gift-amount').value) || 0;
-  if (!tok) return toast('Enter a recipient token.', 'error');
-  if (tok === state.token) return toast("Can't gift yourself!", 'error');
-  if (amt < 1) return toast('Enter a valid amount.', 'error');
-  if (amt > state.balance) return toast(`Not enough credits (have ${state.balance}).`, 'error');
+  const tok = (document.getElementById('gift-tok').value || '').trim();
+  const amt = parseInt(document.getElementById('gift-amt').value) || 0;
+  if (!tok)              return toast('Enter a token','red');
+  if (tok === state.token) return toast("Can't gift yourself",'red');
+  if (amt < 1)           return toast('Enter valid amount','red');
+  if (amt > state.balance) return toast('Not enough credits','red');
   state.balance -= amt;
-  saveState(state); updateUI();
-  document.getElementById('gift-token').value  = '';
-  document.getElementById('gift-amount').value = '';
-  toast(`Sent ${amt} credit${amt > 1 ? 's' : ''} successfully!`, 'success');
+  save(state); updateUI();
+  document.getElementById('gift-tok').value = '';
+  document.getElementById('gift-amt').value = '';
+  toast('Sent ' + amt + ' credit' + (amt>1?'s':'') + '!','green');
 }
 
 function redeemPkg() {
   if (selPkg === null) return;
   const p = PKGS[selPkg];
-  if (state.balance < p.credits) return toast(`Need ${p.credits} credits, you have ${state.balance}.`, 'error');
+  if (state.balance < p.credits) return toast('Need ' + p.credits + ' credits','red');
   state.balance -= p.credits;
   const now  = new Date();
   const base = (state.wlExpires && new Date(state.wlExpires) > now) ? new Date(state.wlExpires) : now;
   base.setHours(base.getHours() + p.hours);
   state.wlExpires = base.toISOString();
-  saveState(state); updateUI();
-  toast(`✓ Whitelist active for ${p.dur} ${p.unit}!`, 'success');
+  save(state); updateUI();
+  toast('Whitelist active for ' + p.dur + ' ' + p.unit + '!','green');
 }
 
-// ── Init ──────────────────────────────────────────────────
-function init() {
-  const saved = loadState();
-  state = saved || {
-    balance: 0,
-    earnedToday: 0,
-    lastEarnDate: null,
-    discordClaimed: false,
-    wlExpires: null,
-    token: genToken(HWID),   // deterministic per HWID
-  };
-  // Always ensure token matches HWID (in case of old saves)
-  state.token = genToken(HWID);
-  saveState(state);
+// QUIZ
+const QS = [
+  {q:"What is 12 × 12?",             o:["124","144","134","154"],      a:1},
+  {q:"Closest planet to the Sun?",   o:["Venus","Earth","Mercury","Mars"], a:2},
+  {q:"How many sides on a hexagon?", o:["5","7","8","6"],              a:3},
+  {q:"Blue + Yellow = ?",            o:["Purple","Orange","Green","Brown"],a:2},
+  {q:"Capital of France?",           o:["Berlin","Paris","Rome","Madrid"],a:1},
+  {q:"Seconds in a minute?",         o:["100","30","60","90"],         a:2},
+  {q:"What is 7 × 8?",              o:["54","56","58","52"],           a:1},
+  {q:"Largest ocean?",              o:["Atlantic","Indian","Arctic","Pacific"],a:3},
+  {q:"How many continents?",        o:["5","6","7","8"],               a:2},
+  {q:"Gas plants absorb?",          o:["Oxygen","Nitrogen","CO2","Hydrogen"],a:2},
+  {q:"What is 100 ÷ 4?",           o:["20","30","25","40"],           a:2},
+  {q:"Fastest land animal?",        o:["Lion","Horse","Cheetah","Leopard"],a:2},
+  {q:"Boiling point of water °C?",  o:["90","110","80","100"],        a:3},
+  {q:"Players on a soccer team?",   o:["10","9","11","12"],           a:2},
+  {q:"What is 15 × 4?",            o:["50","55","60","45"],           a:2},
+  {q:"Capital of Japan?",           o:["Seoul","Beijing","Tokyo","Bangkok"],a:2},
+  {q:"How many days in a leap year?",o:["364","365","366","367"],     a:2},
+  {q:"What is 9²?",                 o:["72","81","91","63"],          a:1},
+];
+let qCorrect=0, qNum=0, qUsed=[], qLocked=false;
 
+function startQuiz() {
+  if (state.earnedToday >= 50) return toast('Daily limit reached!','red');
+  qCorrect=0; qNum=0; qUsed=[]; qLocked=false;
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-play').style.display  = 'block';
+  nextQ();
+}
+
+function nextQ() {
+  qLocked = false;
+  qNum++;
+  document.getElementById('qnum').textContent   = qNum;
+  document.getElementById('qscore').textContent = qCorrect;
+  document.getElementById('quiz-res').textContent = '';
+  let idx;
+  do { idx = Math.floor(Math.random() * QS.length); } while (qUsed.includes(idx) && qUsed.length < QS.length);
+  qUsed.push(idx);
+  const q = QS[idx];
+  document.getElementById('quiz-q').textContent = q.q;
+  document.getElementById('quiz-opts').innerHTML = q.o.map((opt,i) =>
+    `<div class="quiz-opt" onpointerdown="answer(${i},${q.a})">${opt}</div>`
+  ).join('');
+}
+
+function answer(i, correct) {
+  if (qLocked) return;
+  qLocked = true;
+  const res  = document.getElementById('quiz-res');
+  const opts = document.getElementById('quiz-opts').children;
+  for (let x of opts) x.style.pointerEvents = 'none';
+  if (i === correct) {
+    qCorrect++;
+    opts[i].style.background = 'rgba(52,199,89,0.15)';
+    opts[i].style.borderColor = '#34c759';
+    if (qCorrect >= 3) {
+      res.style.color = '#34c759';
+      res.textContent = '✓ All 3 correct — +1 credit!';
+      state.balance++; state.earnedToday++;
+      save(state); updateUI();
+      toast('+1 credit earned!','green');
+      setTimeout(() => {
+        document.getElementById('quiz-play').style.display  = 'none';
+        document.getElementById('quiz-start').style.display = 'block';
+      }, 1800);
+    } else {
+      res.style.color = '#34c759';
+      res.textContent = '✓ Correct! ' + (3 - qCorrect) + ' more to go.';
+      setTimeout(nextQ, 1400);
+    }
+  } else {
+    opts[i].style.background   = 'rgba(255,59,48,0.1)';
+    opts[i].style.borderColor  = '#ff3b30';
+    opts[correct].style.background  = 'rgba(52,199,89,0.1)';
+    opts[correct].style.borderColor = '#34c759';
+    res.style.color = '#ff3b30';
+    res.textContent = '✗ Wrong! Quiz reset.';
+    setTimeout(() => {
+      document.getElementById('quiz-play').style.display  = 'none';
+      document.getElementById('quiz-start').style.display = 'block';
+    }, 2000);
+  }
+}
+
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + (type||'');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.className = '', 2500);
+}
+
+function init() {
+  const saved = load();
+  state = saved || { balance:0, earnedToday:0, lastDate:null, wlExpires:null, token:genToken(HWID) };
+  state.token = genToken(HWID);
+  save(state);
   renderPkgs();
   updateUI();
   setInterval(updateUI, 30000);
