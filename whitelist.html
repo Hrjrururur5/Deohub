@@ -257,12 +257,19 @@ footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex;
   <div class="two-col">
     <div class="card" style="margin-bottom:0">
       <div class="card-label">Earn &amp; share</div>
-      <div class="section-h">Answer a question</div>
-      <p class="section-p">Answer correctly to earn +1 credit. New question each time!</p>
+      <div class="section-h">Answer questions</div>
+      <p class="section-p">Answer 3 questions correctly to earn +1 credit.</p>
       <div id="quiz-box">
-        <div id="quiz-question" style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text)"></div>
-        <div id="quiz-options" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
-        <div id="quiz-result" style="font-size:12px;font-weight:600;min-height:18px"></div>
+        <div id="quiz-start-screen">
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Answer 3 in a row correctly to earn a credit. New questions each time!</div>
+          <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+        </div>
+        <div id="quiz-play-screen" style="display:none">
+          <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px">Question <span id="quiz-progress">1</span> of 3</div>
+          <div id="quiz-question" style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text)"></div>
+          <div id="quiz-options" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+          <div id="quiz-result" style="font-size:12px;font-weight:600;min-height:18px"></div>
+        </div>
       </div>
     </div>
     <div class="card" style="margin-bottom:0">
@@ -483,16 +490,37 @@ const QUESTIONS = [
   { q: "What gas do plants absorb?", options: ["Oxygen","Nitrogen","CO2","Hydrogen"], answer: 2 },
   { q: "What is 100 ÷ 4?", options: ["20","30","25","40"], answer: 2 },
   { q: "Which animal is the fastest on land?", options: ["Lion","Horse","Cheetah","Leopard"], answer: 2 },
+  { q: "What is the boiling point of water in °C?", options: ["90","110","80","100"], answer: 3 },
+  { q: "How many players are on a football team?", options: ["10","9","11","12"], answer: 2 },
+  { q: "What is 15 × 4?", options: ["50","55","60","45"], answer: 2 },
 ];
 
 let currentQ = null;
 let quizAnswered = false;
+let quizCorrect = 0;
+let quizQNum = 0;
+let usedQs = [];
+
+function startQuiz() {
+  if (state.earnedToday >= 50) return toast('Daily limit reached (50/day)!', 'error');
+  quizCorrect = 0;
+  quizQNum = 0;
+  usedQs = [];
+  document.getElementById('quiz-start-screen').style.display = 'none';
+  document.getElementById('quiz-play-screen').style.display = 'block';
+  loadQuiz();
+}
 
 function loadQuiz() {
   quizAnswered = false;
-  currentQ = QUESTIONS[Math.floor(Math.random() * QUESTIONS.length)];
-  document.getElementById('quiz-question').textContent = currentQ.q;
+  quizQNum++;
+  document.getElementById('quiz-progress').textContent = quizQNum;
   document.getElementById('quiz-result').textContent = '';
+  let idx;
+  do { idx = Math.floor(Math.random() * QUESTIONS.length); } while (usedQs.includes(idx));
+  usedQs.push(idx);
+  currentQ = QUESTIONS[idx];
+  document.getElementById('quiz-question').textContent = currentQ.q;
   const opts = document.getElementById('quiz-options');
   opts.innerHTML = currentQ.options.map((o, i) => `
     <button class="btn-ghost" style="text-align:left;padding:8px 12px;border-radius:8px;width:100%" onclick="answerQuiz(${i})">${o}</button>
@@ -501,22 +529,34 @@ function loadQuiz() {
 
 function answerQuiz(i) {
   if (quizAnswered) return;
-  if (state.earnedToday >= 50) return toast('Daily limit reached (50/day)!', 'error');
   quizAnswered = true;
   const result = document.getElementById('quiz-result');
   const btns = document.getElementById('quiz-options').querySelectorAll('button');
   btns.forEach(b => b.disabled = true);
   if (i === currentQ.answer) {
+    quizCorrect++;
     result.style.color = 'var(--green)';
-    result.textContent = '✓ Correct! +1 credit earned.';
-    state.balance += 1; state.earnedToday += 1;
-    saveState(state); updateUI();
-    toast('+1 credit earned!', 'success');
+    if (quizCorrect >= 3) {
+      result.textContent = '✓ Correct! All 3 done — +1 credit earned!';
+      state.balance += 1; state.earnedToday += 1;
+      saveState(state); updateUI();
+      toast('+1 credit earned!', 'success');
+      setTimeout(() => {
+        document.getElementById('quiz-play-screen').style.display = 'none';
+        document.getElementById('quiz-start-screen').style.display = 'block';
+      }, 2000);
+    } else {
+      result.textContent = `✓ Correct! ${3 - quizCorrect} more to go.`;
+      setTimeout(loadQuiz, 1500);
+    }
   } else {
     result.style.color = 'var(--red)';
-    result.textContent = '✗ Wrong! The answer was: ' + currentQ.options[currentQ.answer];
+    result.textContent = '✗ Wrong! Answer: ' + currentQ.options[currentQ.answer] + ' — Quiz reset.';
+    setTimeout(() => {
+      document.getElementById('quiz-play-screen').style.display = 'none';
+      document.getElementById('quiz-start-screen').style.display = 'block';
+    }, 2200);
   }
-  setTimeout(loadQuiz, 2200);
 }
 
 function earnCredits() {}
@@ -565,7 +605,6 @@ function init() {
 
   renderPkgs();
   updateUI();
-  loadQuiz();
   setInterval(updateUI, 30000);
 }
 </script>
