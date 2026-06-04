@@ -187,7 +187,7 @@ footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex;
   <p>This page must be opened from the Roblox script. Execute the script in-game and it will open this page with your unique ID automatically.</p>
   <div class="code-box">
     <div class="code-label">Roblox Loader</div>
-    <code>loadstring(game:HttpGet("https://file.garden/ahkRbB3bekZ7SJ00/DeoLIB.lua.txt"))()</code>
+    <code>loadstring(game:HttpGet("https://raw.githubusercontent.com/Hrjrururur5/Deohub/main/DeoH.lua"))()</code>
   </div>
   <p style="font-size:12px;color:var(--text-tertiary)">If you were redirected here manually, make sure your link includes <code style="font-family:monospace;color:var(--accent)">?HWID=your_id</code></p>
 </div>
@@ -257,9 +257,13 @@ footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex;
   <div class="two-col">
     <div class="card" style="margin-bottom:0">
       <div class="card-label">Earn &amp; share</div>
-      <div class="section-h">Complete Linkvertise</div>
-      <p class="section-p">Finish a Linkvertise ads to earn +1 credit per completion.</p>
-      <button class="btn-primary" onclick="earnCredits()">Earn credits</button>
+      <div class="section-h">Answer a question</div>
+      <p class="section-p">Answer correctly to earn +1 credit. New question each time!</p>
+      <div id="quiz-box">
+        <div id="quiz-question" style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text)"></div>
+        <div id="quiz-options" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+        <div id="quiz-result" style="font-size:12px;font-weight:600;min-height:18px"></div>
+      </div>
     </div>
     <div class="card" style="margin-bottom:0">
       <div class="card-label">Gift credits</div>
@@ -289,8 +293,7 @@ footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex;
     </div>
   </div>
 
-  <img src="https://raw.githubusercontent.com/ItsJiDy/Overdrive-H/refs/heads/main/images/IMG_20260502_125537.png"
-       alt="" class="footer-img" onerror="this.style.display='none'">
+
 
 </main>
 
@@ -467,15 +470,56 @@ function copyToken() {
     });
 }
 
-function earnCredits() {
-  if (state.earnedToday >= 50) return toast('Daily limit reached (50/day)!', 'error');
-  state.balance += 1; state.earnedToday += 1;
-  saveState(state);
-  toast('+1 credit earned! Opening link...', 'success');
-  setTimeout(() => {
-    window.location.href = 'https://linkvertise.com/6209395/2o3dDtwf77Um?o=sharing';
-  }, 800);
+const QUESTIONS = [
+  { q: "What is 12 × 12?", options: ["124","144","134","154"], answer: 1 },
+  { q: "Which planet is closest to the Sun?", options: ["Venus","Earth","Mercury","Mars"], answer: 2 },
+  { q: "How many sides does a hexagon have?", options: ["5","7","8","6"], answer: 3 },
+  { q: "What color do you get mixing blue and yellow?", options: ["Purple","Orange","Green","Brown"], answer: 2 },
+  { q: "What is the capital of France?", options: ["Berlin","Paris","Rome","Madrid"], answer: 1 },
+  { q: "How many seconds are in a minute?", options: ["100","30","60","90"], answer: 2 },
+  { q: "What is 7 × 8?", options: ["54","56","58","52"], answer: 1 },
+  { q: "Which is the largest ocean?", options: ["Atlantic","Indian","Arctic","Pacific"], answer: 3 },
+  { q: "How many continents are there?", options: ["5","6","7","8"], answer: 2 },
+  { q: "What gas do plants absorb?", options: ["Oxygen","Nitrogen","CO2","Hydrogen"], answer: 2 },
+  { q: "What is 100 ÷ 4?", options: ["20","30","25","40"], answer: 2 },
+  { q: "Which animal is the fastest on land?", options: ["Lion","Horse","Cheetah","Leopard"], answer: 2 },
+];
+
+let currentQ = null;
+let quizAnswered = false;
+
+function loadQuiz() {
+  quizAnswered = false;
+  currentQ = QUESTIONS[Math.floor(Math.random() * QUESTIONS.length)];
+  document.getElementById('quiz-question').textContent = currentQ.q;
+  document.getElementById('quiz-result').textContent = '';
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = currentQ.options.map((o, i) => `
+    <button class="btn-ghost" style="text-align:left;padding:8px 12px;border-radius:8px;width:100%" onclick="answerQuiz(${i})">${o}</button>
+  `).join('');
 }
+
+function answerQuiz(i) {
+  if (quizAnswered) return;
+  if (state.earnedToday >= 50) return toast('Daily limit reached (50/day)!', 'error');
+  quizAnswered = true;
+  const result = document.getElementById('quiz-result');
+  const btns = document.getElementById('quiz-options').querySelectorAll('button');
+  btns.forEach(b => b.disabled = true);
+  if (i === currentQ.answer) {
+    result.style.color = 'var(--green)';
+    result.textContent = '✓ Correct! +1 credit earned.';
+    state.balance += 1; state.earnedToday += 1;
+    saveState(state); updateUI();
+    toast('+1 credit earned!', 'success');
+  } else {
+    result.style.color = 'var(--red)';
+    result.textContent = '✗ Wrong! The answer was: ' + currentQ.options[currentQ.answer];
+  }
+  setTimeout(loadQuiz, 2200);
+}
+
+function earnCredits() {}
 
 function sendGift() {
   const tok = document.getElementById('gift-token').value.trim();
@@ -521,6 +565,7 @@ function init() {
 
   renderPkgs();
   updateUI();
+  loadQuiz();
   setInterval(updateUI, 30000);
 }
 </script>
