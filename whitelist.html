@@ -262,7 +262,7 @@ footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex;
       <div id="quiz-box">
         <div id="quiz-start-screen">
           <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Answer 3 in a row correctly to earn a credit. New questions each time!</div>
-          <button class="btn-primary" onclick="startQuiz()">Start Quiz</button>
+          <div id="start-quiz-btn" style="display:inline-block;background:#0071e3;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:9px;cursor:pointer;user-select:none;-webkit-user-select:none;" onpointerdown="startQuiz()">Start Quiz</div>
         </div>
         <div id="quiz-play-screen" style="display:none">
           <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:6px">Question <span id="quiz-progress">1</span> of 3</div>
@@ -523,7 +523,7 @@ function loadQuiz() {
   document.getElementById('quiz-question').textContent = currentQ.q;
   const opts = document.getElementById('quiz-options');
   opts.innerHTML = currentQ.options.map((o, i) => `
-    <button class="btn-ghost" style="text-align:left;padding:8px 12px;border-radius:8px;width:100%" onclick="answerQuiz(${i})">${o}</button>
+    <div style="background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;user-select:none;-webkit-user-select:none;" onpointerdown="answerQuiz(${i})">${o}</div>
   `).join('');
 }
 
