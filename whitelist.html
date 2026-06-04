@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Earn credits, gift them, and exchange for Deo Hub whitelist time.">
+<title>Whitelist - Deo Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f5f7;
+  --surface: rgba(255,255,255,0.72);
+  --surface-solid: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.12);
+  --text: #1a1a1a;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #aeaeb2;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-light: rgba(0,113,227,0.08);
+  --green: #34c759;
+  --green-light: rgba(52,199,89,0.1);
+  --red: #ff3b30;
+  --red-light: rgba(255,59,48,0.08);
+  --yellow: #ff9f0a;
+  --discord: #5865f2;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-xs: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
+}
+html { font-size: 15px; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; line-height: 1.5; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 200; background: rgba(245,245,247,0.85); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--border); height: 52px; display: flex; align-items: center; padding: 0 24px; }
+.nav-inner { max-width: 860px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.2px; }
+.nav-right { display: flex; align-items: center; gap: 6px; }
+.nav-link { font-size: 13px; color: var(--text-secondary); text-decoration: none; padding: 5px 10px; border-radius: 7px; transition: background .15s, color .15s; }
+.nav-link:hover { background: rgba(0,0,0,0.05); color: var(--text); }
+.nav-discord-btn { background: var(--discord); color: #fff; font-size: 13px; font-weight: 500; border: none; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: opacity .15s, transform .15s; }
+.nav-discord-btn:hover { opacity: .9; transform: translateY(-1px); }
+
+/* BREADCRUMB */
+.breadcrumb { max-width: 860px; margin: 0 auto; padding: 14px 20px 0; font-size: 12px; color: var(--text-tertiary); display: flex; align-items: center; gap: 5px; }
+.breadcrumb a { color: var(--text-tertiary); text-decoration: none; }
+.breadcrumb a:hover { color: var(--text-secondary); }
+
+/* HWID MISSING SCREEN */
+#no-hwid { display: none; max-width: 500px; margin: 80px auto; padding: 0 20px; text-align: center; }
+#no-hwid .icon { font-size: 48px; margin-bottom: 16px; }
+#no-hwid h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+#no-hwid p { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+.code-box { background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 16px; text-align: left; margin-bottom: 12px; }
+.code-box .code-label { font-size: 10px; text-transform: uppercase; letter-spacing: .6px; color: var(--text-tertiary); font-weight: 600; margin-bottom: 8px; }
+.code-box code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); word-break: break-all; display: block; }
+
+/* MAIN */
+main { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+.page-header { margin-bottom: 28px; }
+.page-header h1 { font-size: clamp(22px, 3.5vw, 30px); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 5px; }
+.page-header p { font-size: 14px; color: var(--text-secondary); }
+
+/* HWID pill */
+.hwid-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 20px; padding: 4px 12px 4px 8px; font-size: 11px; color: var(--text-secondary); margin-bottom: 20px; }
+.hwid-pill span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); }
+.hwid-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+/* CARD */
+.card { background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 12px; }
+.card-label { font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 14px; }
+
+/* BALANCE GRID */
+.balance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+@media(max-width:560px) { .balance-grid { grid-template-columns: 1fr 1fr; } }
+.stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px 14px; }
+.stat-label { font-size: 11px; color: var(--text-tertiary); margin-bottom: 5px; font-weight: 500; }
+.stat-value { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+.stat-value .unit { font-size: 12px; font-weight: 500; color: var(--text-tertiary); margin-left: 2px; }
+.stat-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+
+/* WHITELIST BOX */
+.whitelist-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.whitelist-box .wl-left h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.whitelist-box .wl-left p { font-size: 12px; color: var(--text-secondary); }
+.wl-right { text-align: right; }
+.wl-expires-label { font-size: 10px; text-transform: uppercase; letter-spacing: .6px; color: var(--text-tertiary); margin-bottom: 2px; font-weight: 600; }
+.wl-expires-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-secondary); }
+
+/* BADGE */
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.badge-dot.pulse { animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.35} }
+.badge-inactive { background: var(--red-light); color: var(--red); }
+.badge-active   { background: var(--green-light); color: var(--green); }
+
+/* TOKEN */
+.token-row { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 8px; }
+.token-val { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-ghost { font-size: 12px; font-weight: 500; background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 7px; padding: 5px 12px; cursor: pointer; color: var(--text); transition: background .15s; font-family: 'Inter', sans-serif; white-space: nowrap; }
+.btn-ghost:hover { background: var(--bg); }
+.token-hint { font-size: 12px; color: var(--text-tertiary); }
+
+/* DISCORD TASK */
+.task-card { background: linear-gradient(135deg, rgba(88,101,242,0.07) 0%, rgba(88,101,242,0.03) 100%); border: 1px solid rgba(88,101,242,0.18); border-radius: var(--radius); padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+.task-tag { display: inline-block; background: var(--yellow); color: #000; font-size: 10px; font-weight: 700; letter-spacing: .5px; padding: 2px 7px; border-radius: 20px; margin-bottom: 5px; }
+.task-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.task-card p { font-size: 13px; color: var(--text-secondary); }
+.btn-discord { background: var(--discord); color: #fff; border: none; padding: 9px 18px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: opacity .15s, transform .15s; white-space: nowrap; font-family: 'Inter', sans-serif; }
+.btn-discord:hover { opacity: .9; transform: translateY(-1px); }
+.btn-discord:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:540px) { .two-col { grid-template-columns: 1fr; } }
+.section-h { font-size: 14px; font-weight: 600; margin-bottom: 3px; display: flex; align-items: center; gap: 7px; }
+.section-p { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; }
+.btn-primary { width: 100%; background: var(--accent); color: #fff; border: none; padding: 10px; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s, transform .15s, box-shadow .15s; font-family: 'Inter', sans-serif; }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,113,227,0.25); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+.field-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .5px; display: block; margin-bottom: 5px; }
+input[type=text], input[type=number] { width: 100%; background: var(--bg); border: 1px solid var(--border-strong); border-radius: var(--radius-xs); padding: 9px 11px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--text); outline: none; transition: border .15s, box-shadow .15s; margin-bottom: 10px; }
+input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,113,227,0.12); }
+input::placeholder { color: var(--text-tertiary); font-family: 'Inter', sans-serif; }
+
+/* PACKAGES */
+.packages-h { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 3px; }
+.packages-p { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
+.pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-bottom: 16px; }
+.pkg { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; cursor: pointer; position: relative; transition: border-color .15s, background .15s, box-shadow .15s; user-select: none; }
+.pkg:hover { border-color: var(--accent); background: var(--accent-light); }
+.pkg.selected { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 2px rgba(0,113,227,0.15); }
+.pkg-flag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 700; letter-spacing: .3px; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+.pkg-flag-popular { background: var(--accent); color: #fff; }
+.pkg-flag-best { background: var(--yellow); color: #000; }
+.pkg-dur { font-size: 22px; font-weight: 800; letter-spacing: -1px; color: var(--text); }
+.pkg-unit { font-size: 10px; color: var(--text-tertiary); font-weight: 500; margin-bottom: 8px; }
+.pkg-price { font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-light); border-radius: 5px; padding: 2px 7px; display: inline-block; }
+
+/* REDEEM */
+.redeem-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
+.redeem-hint { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; }
+.selected-pkg-row { display: none; align-items: center; justify-content: space-between; background: var(--accent-light); border: 1px solid rgba(0,113,227,0.15); border-radius: 8px; padding: 9px 13px; margin-bottom: 12px; }
+.spkg-name { font-size: 13px; font-weight: 600; }
+.spkg-cost { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); }
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* FOOTER */
+.footer-img { max-width: 100%; border-radius: var(--radius); margin: 20px auto 0; display: block; opacity: .7; }
+footer { border-top: 1px solid var(--border); padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--text-tertiary); }
+.footer-links { display: flex; gap: 18px; }
+.footer-links a { color: var(--text-tertiary); text-decoration: none; }
+.footer-links a:hover { color: var(--text-secondary); }
+
+/* TOAST */
+#toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 10px; padding: 11px 16px; font-size: 13px; font-weight: 500; box-shadow: 0 4px 20px rgba(0,0,0,0.12); opacity: 0; transform: translateY(6px) scale(.97); transition: all .25s; pointer-events: none; z-index: 999; max-width: 260px; }
+#toast.show { opacity: 1; transform: none; }
+#toast.success { color: var(--green); border-color: rgba(52,199,89,0.3); }
+#toast.error   { color: var(--red);   border-color: rgba(255,59,48,0.3); }
+#toast.info    { color: var(--accent); border-color: rgba(0,113,227,0.2); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Deo Hub</a>
+    <div class="nav-right">
+      <a href="#" class="nav-link">Home</a>
+      <a href="https://discord.gg/snxNCHhUX" target="_blank" class="nav-discord-btn">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M13.545 1.04A13.22 13.22 0 0 0 10.265 0c-.155.282-.335.662-.459.964a12.23 12.23 0 0 0-3.613 0A10.285 10.285 0 0 0 5.734 0a13.2 13.2 0 0 0-3.282 1.042C.35 4.099-.214 7.064.068 9.986c1.386 1.031 2.727 1.654 4.047 2.063.327-.448.617-.924.866-1.428a8.635 8.635 0 0 1-1.364-.666c.114-.085.226-.173.334-.263 2.628 1.23 5.487 1.23 8.085 0 .109.09.221.178.334.263-.435.261-.89.49-1.366.668.25.503.54.98.866 1.428 1.322-.41 2.665-1.032 4.05-2.063.33-3.41-.558-6.346-2.375-8.948ZM5.34 8.19c-.78 0-1.419-.728-1.419-1.62 0-.892.624-1.621 1.42-1.621.796 0 1.432.73 1.42 1.62 0 .893-.625 1.622-1.42 1.622Zm5.326 0c-.78 0-1.419-.728-1.419-1.62 0-.892.623-1.621 1.42-1.621.795 0 1.431.73 1.419 1.62 0 .893-.625 1.622-1.42 1.622Z"/></svg>
+        Discord
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- NO HWID SCREEN -->
+<div id="no-hwid">
+  <div class="icon">🔑</div>
+  <h2>No HWID detected</h2>
+  <p>This page must be opened from the Roblox script. Execute the script in-game and it will open this page with your unique ID automatically.</p>
+  <div class="code-box">
+    <div class="code-label">Roblox Loader</div>
+    <code>loadstring(game:HttpGet("https://file.garden/ahkRbB3bekZ7SJ00/DeoLIB.lua.txt"))()</code>
+  </div>
+  <p style="font-size:12px;color:var(--text-tertiary)">If you were redirected here manually, make sure your link includes <code style="font-family:monospace;color:var(--accent)">?HWID=your_id</code></p>
+</div>
+
+<div class="breadcrumb" id="breadcrumb" style="display:none">
+  <a href="#">Home</a><span>/</span><span>Whitelist</span><span>/</span><span>Credits</span>
+</div>
+
+<main id="main-content" style="display:none">
+
+  <div class="page-header">
+    <h1>Earn credits, unlock whitelist.</h1>
+    <p>Complete Linkvertise to earn credits, gift them to friends, or exchange them for whitelist time.</p>
+  </div>
+
+  <!-- HWID PILL -->
+  <div class="hwid-pill">
+    <span class="hwid-dot"></span>
+    HWID: <span id="hwid-display">-</span>
+  </div>
+
+  <!-- BALANCE + STATUS -->
+  <div class="card">
+    <div class="balance-grid">
+      <div class="stat">
+        <div class="stat-label">Your balance</div>
+        <div class="stat-value" id="balance-val">0<span class="unit">credits</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Earned today</div>
+        <div class="stat-value"><span id="earned-val">0</span><span class="unit">/ 50</span></div>
+        <div class="stat-sub">Resets daily.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Whitelist status</div>
+        <div style="margin-top:5px">
+          <span class="badge badge-inactive" id="status-badge">
+            <span class="badge-dot" id="badge-dot"></span>
+            <span id="badge-text">Inactive</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="whitelist-box" id="wl-box">
+      <div class="wl-left">
+        <h3 id="wl-title">Not active</h3>
+        <p id="wl-desc">No active whitelist - redeem a package below to start your timer.</p>
+      </div>
+      <div class="wl-right">
+        <div class="wl-expires-label">Expires</div>
+        <div class="wl-expires-val" id="wl-expires">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOKEN -->
+  <div class="card">
+    <div class="card-label">Your User Token</div>
+    <div class="token-row">
+      <div class="token-val" id="token-val">---</div>
+      <button class="btn-ghost" onclick="copyToken()">Copy token</button>
+    </div>
+    <div class="token-hint">Share this so others can gift you credits.</div>
+  </div>
+
+  <!-- EARN + GIFT -->
+  <div class="two-col">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-label">Earn &amp; share</div>
+      <div class="section-h">Complete Linkvertise</div>
+      <p class="section-p">Finish a Linkvertise ads to earn +1 credit per completion.</p>
+      <button class="btn-primary" onclick="earnCredits()">Earn credits</button>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-label">Gift credits</div>
+      <div class="section-h">Gift credits</div>
+      <p class="section-p">Send to another user's token.</p>
+      <label class="field-label">Recipient user token</label>
+      <input type="text" id="gift-token" placeholder="@" />
+      <label class="field-label">Amount</label>
+      <input type="number" id="gift-amount" placeholder="1" min="1" />
+      <button class="btn-primary" onclick="sendGift()">Send gift</button>
+    </div>
+  </div>
+
+  <!-- PACKAGES -->
+  <div class="card" style="margin-top:12px">
+    <div class="packages-h">Exchange for whitelist</div>
+    <p class="packages-p">Select a package and redeem it with your credits.</p>
+    <div class="pkg-grid" id="pkg-grid"></div>
+    <div class="divider"></div>
+    <div class="redeem-box">
+      <div id="redeem-hint" class="redeem-hint"><strong>Select a duration</strong><br>Pick a package above to redeem it with your credits.</div>
+      <div class="selected-pkg-row" id="sel-pkg-row">
+        <span class="spkg-name" id="sel-name">-</span>
+        <span class="spkg-cost" id="sel-cost">- credits</span>
+      </div>
+      <button class="btn-primary" id="redeem-btn" onclick="redeemPkg()" disabled>Redeem whitelist</button>
+    </div>
+  </div>
+
+  <img src="https://raw.githubusercontent.com/ItsJiDy/Overdrive-H/refs/heads/main/images/IMG_20260502_125537.png"
+       alt="" class="footer-img" onerror="this.style.display='none'">
+
+</main>
+
+<footer>
+  <span>© 2026 Deo Hub · All rights reserved.</span>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="https://discord.gg/snxNCHhUX" target="_blank">Discord</a>
+    <a href="#">Terms of Service</a>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// ── Get HWID from URL ─────────────────────────────────────
+const urlParams = new URLSearchParams(window.location.search);
+const HWID = urlParams.get('HWID');
+
+if (!HWID) {
+  // No HWID — show the "missing" screen, hide main content
+  document.getElementById('no-hwid').style.display = 'block';
+} else {
+  document.getElementById('breadcrumb').style.display = 'flex';
+  document.getElementById('main-content').style.display = 'block';
+  document.getElementById('hwid-display').textContent = HWID.length > 20
+    ? HWID.slice(0, 10) + '…' + HWID.slice(-6)
+    : HWID;
+  init();
+}
+
+// ── Per-HWID storage key ──────────────────────────────────
+function storageKey(sub) { return `overdrive_${HWID}_${sub}`; }
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(storageKey('state'));
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function saveState(s) {
+  try { localStorage.setItem(storageKey('state'), JSON.stringify(s)); } catch(e) {}
+}
+
+// ── Generate deterministic token from HWID ────────────────
+function genToken(hwid) {
+  // Simple deterministic hash → readable token
+  let hash = 0;
+  for (let i = 0; i < hwid.length; i++) {
+    hash = ((hash << 5) - hash) + hwid.charCodeAt(i);
+    hash |= 0;
+  }
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
+  let seed = Math.abs(hash);
+  for (let i = 0; i < 16; i++) {
+    token += chars[seed % chars.length];
+    seed = Math.floor(seed / chars.length) + (seed * 31 + i);
+    seed = Math.abs(seed % 1000000007);
+  }
+  return token;
+}
+
+// ── Packages ──────────────────────────────────────────────
+const PKGS = [
+  {dur:'6',  unit:'hrs',  credits:2,  hours:6   },
+  {dur:'12', unit:'hrs',  credits:3,  hours:12  },
+  {dur:'1',  unit:'day',  credits:4,  hours:24,  flag:'popular', flagLabel:'Popular' },
+  {dur:'3',  unit:'days', credits:6,  hours:72  },
+  {dur:'5',  unit:'days', credits:9,  hours:120 },
+  {dur:'7',  unit:'days', credits:11, hours:168 },
+  {dur:'15', unit:'days', credits:21, hours:360, flag:'best', flagLabel:'Best value' },
+];
+let selPkg = null;
+let state  = null;
+
+function renderPkgs() {
+  document.getElementById('pkg-grid').innerHTML = PKGS.map((p,i) => `
+    <div class="pkg${selPkg===i?' selected':''}" onclick="selectPkg(${i})" role="button" tabindex="0">
+      ${p.flag ? `<div class="pkg-flag pkg-flag-${p.flag}">${p.flagLabel}</div>` : ''}
+      <div class="pkg-dur">${p.dur}</div>
+      <div class="pkg-unit">${p.unit}</div>
+      <div class="pkg-price">${p.credits} credits</div>
+    </div>
+  `).join('');
+}
+
+function selectPkg(i) {
+  selPkg = i;
+  renderPkgs();
+  const p = PKGS[i];
+  document.getElementById('redeem-hint').style.display = 'none';
+  const row = document.getElementById('sel-pkg-row');
+  row.style.display = 'flex';
+  document.getElementById('sel-name').textContent = `${p.dur} ${p.unit}`;
+  document.getElementById('sel-cost').textContent  = `${p.credits} credits`;
+  document.getElementById('redeem-btn').disabled = false;
+}
+
+// ── Daily reset ───────────────────────────────────────────
+function checkReset() {
+  const today = new Date().toDateString();
+  if (state.lastEarnDate !== today) {
+    state.earnedToday    = 0;
+    state.discordClaimed = false;
+    state.lastEarnDate   = today;
+    saveState(state);
+  }
+}
+
+// ── UI ────────────────────────────────────────────────────
+function updateUI() {
+  checkReset();
+
+  document.getElementById('balance-val').innerHTML =
+    `${state.balance}<span class="unit">credits</span>`;
+  document.getElementById('earned-val').textContent = state.earnedToday;
+  document.getElementById('token-val').textContent  = state.token;
+
+  // Whitelist status
+  const now    = new Date();
+  const exp    = state.wlExpires ? new Date(state.wlExpires) : null;
+  const active = exp && exp > now;
+
+  const badge = document.getElementById('status-badge');
+  const dot   = document.getElementById('badge-dot');
+  const box   = document.getElementById('wl-box');
+
+  if (active) {
+    badge.className = 'badge badge-active';
+    dot.className   = 'badge-dot pulse';
+    document.getElementById('badge-text').textContent = 'Active';
+    document.getElementById('wl-title').textContent   = 'Active';
+    document.getElementById('wl-desc').textContent    = 'Your whitelist is currently running.';
+    box.style.background   = 'rgba(52,199,89,0.05)';
+    box.style.borderColor  = 'rgba(52,199,89,0.25)';
+    document.getElementById('wl-expires').textContent = exp.toLocaleString();
+  } else {
+    badge.className = 'badge badge-inactive';
+    dot.className   = 'badge-dot';
+    document.getElementById('badge-text').textContent = 'Inactive';
+    document.getElementById('wl-title').textContent   = 'Not active';
+    document.getElementById('wl-desc').textContent    = 'No active whitelist - redeem a package below to start your timer.';
+    box.style.background  = '';
+    box.style.borderColor = '';
+    document.getElementById('wl-expires').textContent = '-';
+    if (state.wlExpires && !active) { state.wlExpires = null; saveState(state); }
+  }
+
+}
+
+// ── Toast ─────────────────────────────────────────────────
+function toast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = `show ${type}`;
+  clearTimeout(t._t);
+  t._t = setTimeout(() => { t.className = ''; }, 2800);
+}
+
+// ── Actions ───────────────────────────────────────────────
+function copyToken() {
+  navigator.clipboard.writeText(state.token)
+    .then(() => toast('Token copied!', 'success'))
+    .catch(() => {
+      const el = document.createElement('input');
+      el.value = state.token;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      toast('Token copied!', 'success');
+    });
+}
+
+function earnCredits() {
+  if (state.earnedToday >= 50) return toast('Daily limit reached (50/day)!', 'error');
+  state.balance += 1; state.earnedToday += 1;
+  saveState(state);
+  toast('+1 credit earned! Opening link...', 'success');
+  setTimeout(() => {
+    window.location.href = 'https://linkvertise.com/6209395/2o3dDtwf77Um?o=sharing';
+  }, 800);
+}
+
+function sendGift() {
+  const tok = document.getElementById('gift-token').value.trim();
+  const amt = parseInt(document.getElementById('gift-amount').value) || 0;
+  if (!tok) return toast('Enter a recipient token.', 'error');
+  if (tok === state.token) return toast("Can't gift yourself!", 'error');
+  if (amt < 1) return toast('Enter a valid amount.', 'error');
+  if (amt > state.balance) return toast(`Not enough credits (have ${state.balance}).`, 'error');
+  state.balance -= amt;
+  saveState(state); updateUI();
+  document.getElementById('gift-token').value  = '';
+  document.getElementById('gift-amount').value = '';
+  toast(`Sent ${amt} credit${amt > 1 ? 's' : ''} successfully!`, 'success');
+}
+
+function redeemPkg() {
+  if (selPkg === null) return;
+  const p = PKGS[selPkg];
+  if (state.balance < p.credits) return toast(`Need ${p.credits} credits, you have ${state.balance}.`, 'error');
+  state.balance -= p.credits;
+  const now  = new Date();
+  const base = (state.wlExpires && new Date(state.wlExpires) > now) ? new Date(state.wlExpires) : now;
+  base.setHours(base.getHours() + p.hours);
+  state.wlExpires = base.toISOString();
+  saveState(state); updateUI();
+  toast(`✓ Whitelist active for ${p.dur} ${p.unit}!`, 'success');
+}
+
+// ── Init ──────────────────────────────────────────────────
+function init() {
+  const saved = loadState();
+  state = saved || {
+    balance: 0,
+    earnedToday: 0,
+    lastEarnDate: null,
+    discordClaimed: false,
+    wlExpires: null,
+    token: genToken(HWID),   // deterministic per HWID
+  };
+  // Always ensure token matches HWID (in case of old saves)
+  state.token = genToken(HWID);
+  saveState(state);
+
+  renderPkgs();
+  updateUI();
+  setInterval(updateUI, 30000);
+}
+</script>
+</body>
+</html>
