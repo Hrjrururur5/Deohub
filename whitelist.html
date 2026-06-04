@@ -160,16 +160,12 @@ footer{border-top:1px solid #2a2a35;padding:18px 20px;text-align:center;font-siz
   <!-- QUIZ -->
   <div class="card">
     <div class="card-title">Earn Credits — 3 correct = +1 credit</div>
-    <div id="quiz-start">
-      <div style="font-size:13px;color:#666;margin-bottom:12px">Answer 3 questions correctly in a row to earn +1 credit. Get one wrong and it resets!</div>
-      <div class="start-btn" onpointerdown="startQuiz()">Start Quiz</div>
-    </div>
-    <div id="quiz-play" style="display:none">
-      <div class="quiz-prog">Question <span id="qnum">1</span> of 3 &nbsp;·&nbsp; <span id="qscore">0</span> correct</div>
-      <div class="quiz-q" id="quiz-q"></div>
-      <div class="quiz-opts" id="quiz-opts"></div>
-      <div class="quiz-result" id="quiz-res"></div>
-    </div>
+    <div style="font-size:13px;color:#666;margin-bottom:12px">Answer 3 questions correctly to earn +1 credit. Wrong answer resets progress!</div>
+    <div class="quiz-prog">Progress: <span id="qscore">0</span> / 3 correct</div>
+    <div class="quiz-q" id="quiz-q">Tap "Load Question" to begin.</div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+    <div class="quiz-result" id="quiz-res"></div>
+    <div class="start-btn" onpointerdown="nextQ()">Load Question</div>
   </div>
 
   <!-- GIFT -->
@@ -356,24 +352,15 @@ const QS = [
   {q:"How many days in a leap year?",o:["364","365","366","367"],     a:2},
   {q:"What is 9²?",                 o:["72","81","91","63"],          a:1},
 ];
-let qCorrect=0, qNum=0, qUsed=[], qLocked=false;
-
-function startQuiz() {
-  if (state.earnedToday >= 50) return toast('Daily limit reached!','red');
-  qCorrect=0; qNum=0; qUsed=[]; qLocked=false;
-  document.getElementById('quiz-start').style.display = 'none';
-  document.getElementById('quiz-play').style.display  = 'block';
-  nextQ();
-}
+let qCorrect=0, qUsed=[], qLocked=false;
 
 function nextQ() {
+  if (state.earnedToday >= 50) return toast('Daily limit reached!','red');
   qLocked = false;
-  qNum++;
-  document.getElementById('qnum').textContent   = qNum;
-  document.getElementById('qscore').textContent = qCorrect;
   document.getElementById('quiz-res').textContent = '';
   let idx;
   do { idx = Math.floor(Math.random() * QS.length); } while (qUsed.includes(idx) && qUsed.length < QS.length);
+  if (qUsed.length >= QS.length) qUsed = [];
   qUsed.push(idx);
   const q = QS[idx];
   document.getElementById('quiz-q').textContent = q.q;
@@ -390,18 +377,21 @@ function answer(i, correct) {
   for (let x of opts) x.style.pointerEvents = 'none';
   if (i === correct) {
     qCorrect++;
-    opts[i].style.background = 'rgba(52,199,89,0.15)';
+    opts[i].style.background  = 'rgba(52,199,89,0.15)';
     opts[i].style.borderColor = '#34c759';
+    document.getElementById('qscore').textContent = qCorrect;
     if (qCorrect >= 3) {
       res.style.color = '#34c759';
-      res.textContent = '✓ All 3 correct — +1 credit!';
+      res.textContent = '✓ All 3 correct — +1 credit earned!';
       state.balance++; state.earnedToday++;
+      qCorrect = 0;
+      document.getElementById('qscore').textContent = 0;
       save(state); updateUI();
       toast('+1 credit earned!','green');
       setTimeout(() => {
-        document.getElementById('quiz-play').style.display  = 'none';
-        document.getElementById('quiz-start').style.display = 'block';
-      }, 1800);
+        document.getElementById('quiz-q').textContent = 'Tap "Load Question" for another round!';
+        document.getElementById('quiz-opts').innerHTML = '';
+      }, 2000);
     } else {
       res.style.color = '#34c759';
       res.textContent = '✓ Correct! ' + (3 - qCorrect) + ' more to go.';
@@ -413,11 +403,10 @@ function answer(i, correct) {
     opts[correct].style.background  = 'rgba(52,199,89,0.1)';
     opts[correct].style.borderColor = '#34c759';
     res.style.color = '#ff3b30';
-    res.textContent = '✗ Wrong! Quiz reset.';
-    setTimeout(() => {
-      document.getElementById('quiz-play').style.display  = 'none';
-      document.getElementById('quiz-start').style.display = 'block';
-    }, 2000);
+    res.textContent = '✗ Wrong! Progress reset. Tap "Load Question" to try again.';
+    qCorrect = 0;
+    document.getElementById('qscore').textContent = 0;
+    document.getElementById('quiz-opts').innerHTML = '';
   }
 }
 
